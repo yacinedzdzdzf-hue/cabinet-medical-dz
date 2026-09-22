@@ -1,0 +1,4 @@
+project_id = "huumaamyishnzyrwxdcc"
+
+[functions.promote-user]
+verify_jwt = true

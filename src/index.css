@@ -1,0 +1,273 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-gray-200;
+  }
+  body {
+    @apply bg-gray-50 text-gray-900 antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+  html.dark body {
+    @apply bg-slate-950 text-slate-100;
+  }
+  html.dark * {
+    @apply border-slate-800;
+  }
+  /* Remappage des surfaces neutres pour un vrai rendu sombre sur toutes les pages.
+     Les variantes explicitement préfixées `dark:` restent prioritaires car la
+     couche utilitaires est chargée après cette couche. */
+  html.dark .bg-white { @apply bg-slate-900; }
+  html.dark .bg-gray-50 { @apply bg-slate-950; }
+  html.dark .bg-gray-100 { @apply bg-slate-800; }
+  html.dark .text-gray-900 { @apply text-slate-100; }
+  html.dark .text-gray-800 { @apply text-slate-200; }
+  html.dark .text-gray-700 { @apply text-slate-300; }
+  html.dark .text-gray-600 { @apply text-slate-300; }
+  html.dark .text-gray-500 { @apply text-slate-400; }
+  html.dark .text-gray-400 { @apply text-slate-500; }
+  html.dark .border-gray-100 { @apply border-slate-800; }
+  html.dark .border-gray-200 { @apply border-slate-800; }
+  html.dark .divide-gray-100 > * + * { @apply border-slate-800; }
+  html.dark .divide-gray-200 > * + * { @apply border-slate-800; }
+  html.dark .hover\:bg-gray-50:hover { @apply bg-slate-800; }
+  html.dark .hover\:bg-gray-100:hover { @apply bg-slate-800; }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-primary {
+    @apply btn bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-sm;
+  }
+  .btn-secondary {
+    @apply btn bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 active:bg-gray-100;
+  }
+  html.dark .btn-secondary {
+    @apply bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-700 active:bg-slate-600;
+  }
+  .btn-danger {
+    @apply btn bg-red-600 text-white hover:bg-red-700 active:bg-red-800;
+  }
+  .btn-ghost {
+    @apply btn text-gray-600 hover:bg-gray-100;
+  }
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+  .input {
+    @apply w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all;
+  }
+  html.dark .input {
+    @apply bg-slate-800 border-slate-700 text-slate-100 placeholder:text-slate-500;
+  }
+  .label {
+    @apply block text-sm font-medium text-gray-700 mb-1;
+  }
+  .card {
+    @apply bg-white rounded-xl border border-gray-200 shadow-sm;
+  }
+  html.dark .card {
+    @apply bg-slate-900 border-slate-800 shadow-lg shadow-black/20;
+  }
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border;
+  }
+  .table-header {
+    @apply text-xs font-semibold text-gray-500 uppercase tracking-wider;
+  }
+  html.dark .table-header {
+    @apply text-slate-400;
+  }
+  html.dark .label {
+    @apply text-slate-300;
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 rounded-full;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400;
+  }
+  .scrollbar-sidebar::-webkit-scrollbar {
+    width: 5px;
+  }
+  .scrollbar-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-sidebar::-webkit-scrollbar-thumb {
+    background: rgb(51 65 85 / 0.7);
+    border-radius: 9999px;
+  }
+  .scrollbar-sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgb(71 85 105 / 0.9);
+  }
+  .animate-fade-in {
+    animation: fadeIn 0.2s ease-out;
+  }
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   Feuille A4 CMDZ — aperçu, impression et PDF
+   ============================================================ */
+.ordonnance-page {
+  width: 210mm;
+  min-height: 297mm;
+  padding: 14mm 15mm 12mm;
+  background: #ffffff;
+  color: #111827;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin: 0 auto;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.10), 0 8px 24px rgba(15, 23, 42, 0.08);
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.ordonnance-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 10mm;
+}
+
+/* --- ÉCRAN UNIQUEMENT ---------------------------------------------------
+   La feuille est affichée à sa taille A5 (148 × 210 mm). Le zoom appliqué par
+   l'aperçu ne change que l'affichage : ni la mise en page, ni l'impression.
+   Les proportions sont garanties par width/min-height fixes, jamais étirées. */
+.ordonnance-sheet--a5 .ordonnance-page,
+.ordonnance-sheet--a4 .ordonnance-page {
+  width: 148mm;
+  min-height: 210mm;
+  padding: 9mm 10mm 8mm;
+}
+
+/* Couche déplacée par le pan. Le centrage de base est calculé en JavaScript,
+   donc la couche part du coin haut-gauche. */
+.ordonnance-pan-layer {
+  display: inline-block;
+  transform-origin: top left;
+}
+
+@media print {
+  .no-print { display: none !important; }
+  .print-only { display: block !important; }
+
+  html, body {
+    background: #ffffff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Ne garder que la feuille d'ordonnance : ni sidebar, ni entête, ni boutons.
+     Le zoom d'aperçu est neutralisé pour ne jamais influencer l'impression. */
+  body * { visibility: hidden !important; }
+  #ordonnance-sheet, #ordonnance-sheet * { visibility: visible !important; }
+  /* Base : le zoom d'aperçu (70 %, 120 %…) ne doit jamais atteindre le papier. */
+  #ordonnance-sheet { zoom: 1 !important; }
+
+  /* Conteneur qui héberge la feuille : neutralise le positionnement de l'aperçu
+     (modale, défilement, zoom) pour que la feuille démarre en haut de page. */
+  /* Le déplacement à la souris reste à l'écran : à l'impression la feuille
+     repart de son coin haut-gauche, comme si aucun pan n'avait eu lieu. */
+  .ordonnance-pan-layer {
+    transform: none !important;
+  }
+
+  .ordonnance-print-host {
+    position: static !important;
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: auto !important;
+    max-width: none !important;
+    zoom: 1 !important;
+  }
+
+  #ordonnance-sheet {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 148mm !important;
+    display: block !important;
+    gap: 0 !important;
+  }
+
+  .ordonnance-page {
+    box-shadow: none !important;
+    margin: 0 !important;
+    width: 148mm !important;
+    min-height: 209mm !important;
+    padding: 8mm 10mm 7mm !important;
+    break-after: page;
+    page-break-after: always;
+  }
+
+  .ordonnance-page:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  /* A5 : la feuille est imprimée à son format réel, 148 × 210 mm. */
+  .ordonnance-sheet--a5 .ordonnance-page {
+    page: cmdz-a5;
+  }
+
+  /* A4 : même document, papier plus grand. La feuille est agrandie
+     proportionnellement (210 ÷ 148 = 1.4189) pour remplir la largeur de
+     l'A4 sans jamais déformer le ratio, donc centrée naturellement.
+     209 mm × 1.4189 = 296.5 mm, ce qui tient dans les 297 mm de l'A4. */
+  #ordonnance-sheet.ordonnance-sheet--a4 {
+    zoom: 1.4189 !important;
+  }
+  .ordonnance-sheet--a4 .ordonnance-page {
+    page: cmdz-a4;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  @page cmdz-a5 {
+    size: A5 portrait;
+    margin: 0;
+  }
+
+  @page cmdz-a4 {
+    size: A4 portrait;
+    margin: 0;
+  }
+}
